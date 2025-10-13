@@ -16,7 +16,7 @@ bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const welcomeMessage = `
 👋 Hello *${msg.from.first_name || 'there'}*!  
-Welcome to *StackGPT Deployer Bot* 🚀  
+Welcome to 𝗦𝘁𝗮𝗰𝗸𝗚𝗣𝗧 𝗕𝗼𝘁 𝗗𝗲𝗽𝗹𝗼𝘆𝗲𝗿 🚀  
 
 To deploy your StackGPT WhatsApp bot, send your WhatsApp number in this format:
 \`2348012345678\` (without + or spaces)
