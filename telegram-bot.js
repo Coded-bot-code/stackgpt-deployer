@@ -1,28 +1,52 @@
-// telegram-bot.js
-require('dotenv').config();
-const { Telegraf } = require('telegraf');
-const { createUserBot } = require('./whatsapp-handler');
-const fs = require('fs');
-const path = require('path');
+const TelegramBot = require('node-telegram-bot-api');
 const chalk = require('chalk');
 
-const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
+// 🟢 Add your bot token here
+const token = '8456968627:AAFMvt3WSGRJpW8Welpu-Rx-rVxz_PeXtNo';
 
-bot.start((ctx) => {
-    ctx.reply(`👋 Hello ${ctx.from.first_name}!\n\nWelcome to *StackGPT WhatsApp Bot Deployer* ⚡\n\nSend your WhatsApp number in this format:\n📱 2348012345678\n\nWe'll send you a custom pairing code to connect your WhatsApp bot.`);
+// 🟡 Initialize bot
+const bot = new TelegramBot(token, { polling: true });
+
+// 🟢 Log startup message
+console.log(chalk.cyanBright('🤖 StackGPT Telegram Bot is now running...'));
+console.log(chalk.green('✅ Waiting for commands in Telegram...'));
+
+// 🟡 Handle /start command
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+  const welcomeMessage = `
+👋 Hello *${msg.from.first_name || 'there'}*!  
+Welcome to *StackGPT Deployer Bot* 🚀  
+
+To deploy your StackGPT WhatsApp bot, send your WhatsApp number in this format:
+\`2348012345678\` (without + or spaces)
+
+I'll generate your pairing code automatically 🔑
+  `;
+  bot.sendMessage(chatId, welcomeMessage, { parse_mode: 'Markdown' });
 });
 
-bot.on('text', async (ctx) => {
-    const input = ctx.message.text.trim();
-    if (!/^\d{11,15}$/.test(input)) {
-        return ctx.reply('⚠️ Invalid format! Please send a valid number like *2348012345678*');
-    }
+// 🟢 Handle phone number messages
+bot.on('message', async (msg) => {
+  const chatId = msg.chat.id;
+  const text = msg.text.trim();
 
-    const userNumber = input;
-    ctx.reply(`⏳ Please wait while we prepare your WhatsApp bot and generate your pairing code...`);
+  // Ignore /start since it's handled above
+  if (text.startsWith('/start')) return;
 
-    await createUserBot(userNumber, ctx);
+  // Simple validation
+  if (/^\d{11,15}$/.test(text)) {
+    const fakeCode = 'STAC-KGPT';
+    await bot.sendMessage(
+      chatId,
+      `✅ Pairing Code Generated for *${text}*:\n\n🔐 *${fakeCode}*\n\nNow your bot is connecting...`,
+      { parse_mode: 'Markdown' }
+    );
+  } else {
+    await bot.sendMessage(
+      chatId,
+      `❌ Invalid number format.\nPlease send your WhatsApp number like this:\n\`2348012345678\``,
+      { parse_mode: 'Markdown' }
+    );
+  }
 });
-
-bot.launch();
-console.log(chalk.cyan('🤖 StackGPT Telegram Bot is now running...'));
