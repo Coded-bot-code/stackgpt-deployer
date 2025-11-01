@@ -11,7 +11,7 @@ const ownerNumber = '2348029214393@s.whatsapp.net';
 // 🟢 Initialize bot
 const bot = new TelegramBot(token, { polling: true });
 
-console.log(chalk.cyanBright('🤖 StackGPT Telegram Bot is now running...'));
+console.log(chalk.cyanBright('🤖 TruvaGPT Telegram Bot is now running...'));
 console.log(chalk.green('✅ Waiting for commands in Telegram...'));
 
 // 🟡 Handle /start command
