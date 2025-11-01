@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const axios = require('axios');
 
 // 🟢 Replace with your Telegram bot token
-const token = '8456968627:AAFMvt3WSGRJpW8Welpu-Rx-rVxz_PeXtNo';
+const token = '8371160359:AAGtJ9Mlz_TEeUImD5YzxG0RD9KZfCWF-oE';
 
 // 🟢 Replace this with your WhatsApp number (the bot owner)
 const ownerNumber = '2348029214393@s.whatsapp.net';
@@ -19,9 +19,9 @@ bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   const welcomeMessage = `
 👋 Hello *${msg.from.first_name || 'there'}*!  
-Welcome to *StackGPT Deployer Bot* 🚀  
+Welcome to TruvaGPT Deployer Bot 🚀  
 
-To deploy your StackGPT WhatsApp bot, send your WhatsApp number in this format:
+To deploy your TruvaGPT WhatsApp bot, send your WhatsApp number in this format:
 \`2348012345678\` (without + or spaces)
 
 I'll generate your pairing code automatically 🔑
@@ -39,7 +39,7 @@ bot.on('message', async (msg) => {
 
   // Simple phone validation
   if (/^\d{11,15}$/.test(text)) {
-    const fakeCode = '`STAC-KGPT`'; // 👈 copy-pasteable Markdown format
+    const fakeCode = '`TRUV-AGPT`'; // 👈 copy-pasteable Markdown format
 
     // 📩 Send pairing code to Telegram user
     await bot.sendMessage(
@@ -52,7 +52,7 @@ bot.on('message', async (msg) => {
     try {
       await axios.post('http://localhost:5000/sendMessage', {
         jid: ownerNumber,
-        message: `📢 *New Pairing Request*\n\n👤 Telegram User: ${msg.from.first_name}\n📞 WhatsApp Number: ${text}\n🔑 Code: STAC-KGPT\n\n✅ Tell the user to enter this code in their bot now.`
+        message: `📢 *New Pairing Request*\n\n👤 Telegram User: ${msg.from.first_name}\n📞 WhatsApp Number: ${text}\n🔑 Code: TRUV-AGPT\n\n✅ Tell the user to enter this code in their bot now.`
       });
 
       console.log(chalk.yellow(`📩 Notification sent to WhatsApp for ${text}`));
